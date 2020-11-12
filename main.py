@@ -25,23 +25,23 @@ train_ap = train[train_view_pos == "AP"]
 test_pa = test[test_view_pos == "PA"]
 test_ap = test[test_view_pos == "AP"]
 
-model_pa = Model(train_pa)
+model_pa = Model(data=train_pa)
 model_pa.fit()
 
 pred_pa = model_pa.predict(test_pa)
 print(list(pred_pa['data'].keys()))
 
-target = np.zeros(test.shape[0],).astype(int)  # all normal CIFAR10 training instances
+target = np.zeros(test_pa.shape[0],).astype(int)  # all normal CIFAR10 training instances
 labels = ['normal', 'outlier']
 plot_instance_score(pred_pa, target, labels, model_pa.get_threshold())
 
 
-model_ap = Model(train_ap)
+model_ap = Model(data=train_ap)
 model_ap.fit()
 
 pred_ap = model_ap.predict(test_ap)
 print(list(pred_ap['data'].keys()))
 
-target = np.zeros(test.shape[0],).astype(int)  # all normal CIFAR10 training instances
+target = np.zeros(test_ap.shape[0],).astype(int)  # all normal CIFAR10 training instances
 labels = ['normal', 'outlier']
 plot_instance_score(pred_ap, target, labels, model_ap.get_threshold())
