@@ -32,8 +32,6 @@ class Model:
                 Conv2DTranspose(3, 4, strides=2, padding='same', activation='sigmoid')
             ])
 
-
-
         self.enc = OutlierAE(threshold=0.001,
                              encoder_net=encoder_net,
                              decoder_net=decoder_net)
@@ -45,10 +43,10 @@ class Model:
                      optimizer=adam)
 
     def predict(self, test_data):
-        self.enc.predict(test_data,
-                         outlier_type='instance',  # use 'feature' or 'instance' level
-                         return_feature_score=True,  # scores used to determine outliers
-                         return_instance_score=True)
+        return self.enc.predict(test_data,
+                                outlier_type='instance',  # use 'feature' or 'instance' level
+                                return_feature_score=True,  # scores used to determine outliers
+                                return_instance_score=True)
 
     def get_threshold(self):
         return self.enc.threshold
