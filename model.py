@@ -39,7 +39,7 @@ class Model:
     def fit(self, verbose):
         adam = tf.keras.optimizers.Adam(lr=1e-4)
 
-        self.enc.fit(self.train_data, epochs=100, verbose=verbose,
+        self.enc.fit(self.train_data, epochs=1000, verbose=verbose,
                      optimizer=adam)
 
     def predict(self, test_data):
