@@ -30,25 +30,26 @@ model_pa.fit(verbose=False)
 model_ap = Model(data=train_ap)
 model_ap.fit(verbose=False)
 
-target = np.zeros(test_pa.shape[0], ).astype(int)  # all normal CIFAR10 training instances
+target_pa = np.zeros(test_pa.shape[0], ).astype(int)  # all normal CIFAR10 training instances
+target_ap = np.zeros(test_pa.shape[0], ).astype(int)  # all normal CIFAR10 training instances
 labels = ['normal', 'outlier']
 
 # PA ON PA
 print("PA ON PA")
 pred_pa_pa = model_pa.predict(test_pa)
-plot_instance_score(pred_pa_pa, target, labels, model_pa.get_threshold())
+plot_instance_score(pred_pa_pa, target_pa, labels, model_pa.get_threshold())
 
 # PA ON AP
 print("PA ON AP")
 pred_pa_ap = model_pa.predict(test_ap)
-plot_instance_score(pred_pa_ap, target, labels, model_pa.get_threshold())
+plot_instance_score(pred_pa_ap, target_ap, labels, model_pa.get_threshold())
 
 # AP ON AP
 print("AP ON AP")
 pred_ap_ap = model_ap.predict(test_ap)
-plot_instance_score(pred_ap_ap, target, labels, model_ap.get_threshold())
+plot_instance_score(pred_ap_ap, target_ap, labels, model_ap.get_threshold())
 
 # AP ON PA
 print("AP ON PA")
 pred_ap_pa = model_ap.predict(test_pa)
-plot_instance_score(pred_ap_pa, target, labels, model_ap.get_threshold())
+plot_instance_score(pred_ap_pa, target_pa, labels, model_ap.get_threshold())
