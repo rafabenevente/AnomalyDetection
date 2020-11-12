@@ -1,7 +1,7 @@
 import tensorflow as tf
 import numpy as np
-from tensorflow.keras.layers import Conv2D, Conv2DTranspose, UpSampling2D, \
-    Dense, Layer, Reshape, InputLayer, Flatten, Input, MaxPooling2D
+from tensorflow.keras.layers import Conv2D, Conv2DTranspose, \
+    Dense, Reshape, InputLayer, Flatten
 from alibi_detect.od import OutlierAE
 
 
@@ -36,10 +36,10 @@ class Model:
                              encoder_net=encoder_net,
                              decoder_net=decoder_net)
 
-    def fit(self):
+    def fit(self, verbose):
         adam = tf.keras.optimizers.Adam(lr=1e-4)
 
-        self.enc.fit(self.train_data, epochs=100, verbose=True,
+        self.enc.fit(self.train_data, epochs=100, verbose=verbose,
                      optimizer=adam)
 
     def predict(self, test_data):

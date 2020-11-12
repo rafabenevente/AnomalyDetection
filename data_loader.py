@@ -3,6 +3,7 @@ import cv2
 import numpy as np
 import pydicom
 
+
 class DataLoader(object):
     @staticmethod
     def img_to_np(path, size, resize=True):
@@ -11,7 +12,7 @@ class DataLoader(object):
         for fname in os.listdir(path):
             dicom = pydicom.dcmread(os.path.join(path, fname))
             img = dicom.pixel_array
-            if (resize):
+            if resize:
                 img = cv2.resize(img, size)
             img = img.astype('float32') / 255.
             img = np.stack((img,) * 3, axis=-1)
