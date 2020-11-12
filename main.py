@@ -31,7 +31,7 @@ model_ap = Model(data=train_ap)
 model_ap.fit(verbose=False)
 
 target_pa = np.zeros(test_pa.shape[0], ).astype(int)  # all normal CIFAR10 training instances
-target_ap = np.zeros(test_pa.shape[0], ).astype(int)  # all normal CIFAR10 training instances
+target_ap = np.zeros(test_ap.shape[0], ).astype(int)  # all normal CIFAR10 training instances
 labels = ['normal', 'outlier']
 
 # PA ON PA
