@@ -15,29 +15,33 @@ else:
     path_test = "../input/rsna-pneumonia-detection-challenge/stage_2_test_images"
 
 print("train")
-train = DataLoader.img_to_np(path_train, size)
+train, train_view_pos = DataLoader.img_to_np(path_train, size)
 print("test")
-test = DataLoader.img_to_np(path_test, size)
+test, test_view_pos = DataLoader.img_to_np(path_test, size)
 
-enc = Model.get_model(train[0].shape)
+train_pa = train[train_view_pos == "PA"]
+train_ap = train[train_view_pos == "AP"]
 
-adam = tf.keras.optimizers.Adam(lr=1e-4)
+test_pa = test[test_view_pos == "PA"]
+test_ap = test[test_view_pos == "AP"]
 
-enc.fit(train, epochs=100, verbose=True,
-       optimizer = adam)
+model_pa = Model(train_pa)
+model_pa.fit()
 
-# enc.infer_threshold(test, threshold_perc=95)
-#
-# preds = enc.predict(test, outlier_type='instance',
-#             return_instance_score=True,
-#             return_feature_score=True)
-
-od_preds = enc.predict(test,
-                      outlier_type='instance',    # use 'feature' or 'instance' level
-                      return_feature_score=True,  # scores used to determine outliers
-                      return_instance_score=True)
-print(list(od_preds['data'].keys()))
+pred_pa = model_pa.predict(test_pa)
+print(list(pred_pa['data'].keys()))
 
 target = np.zeros(test.shape[0],).astype(int)  # all normal CIFAR10 training instances
 labels = ['normal', 'outlier']
-plot_instance_score(od_preds, target, labels, enc.threshold)
+plot_instance_score(pred_pa, target, labels, model_pa.get_threshold())
+
+
+model_ap = Model(train_ap)
+model_ap.fit()
+
+pred_ap = model_ap.predict(test_ap)
+print(list(pred_ap['data'].keys()))
+
+target = np.zeros(test.shape[0],).astype(int)  # all normal CIFAR10 training instances
+labels = ['normal', 'outlier']
+plot_instance_score(pred_ap, target, labels, model_ap.get_threshold())
