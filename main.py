@@ -62,10 +62,12 @@ train_pa = datagen.flow_from_directory(os.path.join(output),
 # test_pa = test[test_view_pos == "PA"]
 # test_ap = test[test_view_pos == "AP"]
 
+print("fit PA")
 model_pa = Model(data=train_pa,
                  shape=shape)
 model_pa.fit(verbose=False)
 
+print("fit AP")
 model_ap = Model(data=train_ap,
                  shape=shape)
 model_ap.fit(verbose=False)
