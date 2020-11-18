@@ -9,7 +9,7 @@ from model import Model
 is_kaggle = False if 'rafael' in os.getcwd() else True
 
 size = (256, 256)
-shape = (256, 256, 3)
+shape = (128, 128, 3)
 batch = 16
 
 if is_kaggle:
