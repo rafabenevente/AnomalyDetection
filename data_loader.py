@@ -29,7 +29,9 @@ class DataLoader(object):
             os.mkdir(os.path.join(output_path, "PA"))
             os.mkdir(os.path.join(output_path, "AP"))
 
-        for fname in os.listdir(path):
+        for i, fname in enumerate(os.listdir(path)):
+            if i > 5000:
+                break
             dicom = pydicom.dcmread(os.path.join(path, fname))
             img = dicom.pixel_array
             if resize:
