@@ -6,15 +6,16 @@ from alibi_detect.od import OutlierAE
 
 
 class Model:
-    def __init__(self, data):
+    def __init__(self, data, shape):
         encoding_dim = 1024
         dense_dim = [8, 8, 128]
 
         self.train_data = data
+        self.shape = shape
 
         encoder_net = tf.keras.Sequential(
             [
-                InputLayer(input_shape=self.train_data[0].shape),
+                InputLayer(input_shape=self.shape),
                 Conv2D(64, 4, strides=2, padding='same', activation=tf.nn.relu),
                 Conv2D(128, 4, strides=2, padding='same', activation=tf.nn.relu),
                 Conv2D(512, 4, strides=2, padding='same', activation=tf.nn.relu),

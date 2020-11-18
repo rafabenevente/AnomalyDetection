@@ -23,6 +23,25 @@ class DataLoader(object):
         return img_array, view_pos
 
     @staticmethod
+    def dicom_to_file(path, output_path, size, resize=True):
+        if not os.path.exists(output_path):
+            os.mkdir(output_path)
+            os.mkdir(os.path.join(output_path, "PA"))
+            os.mkdir(os.path.join(output_path, "AP"))
+
+        for fname in os.listdir(path):
+            dicom = pydicom.dcmread(os.path.join(path, fname))
+            img = dicom.pixel_array
+            if resize:
+                img = cv2.resize(img, size)
+            img = img.astype('float32') / 255.
+            img = np.stack((img,) * 3, axis=-1)
+            cv2.imwrite(os.path.join(output_path,
+                                     dicom.ViewPosition,
+                                     fname.split(".")[0]+".png"),
+                        img)
+
+    @staticmethod
     def imgs_to_np(file_names, path, size, resize=True):
         img_array = []
         for fname in file_names:
